@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>Asgaard Sofa — Funiro.</title>
+<style>
+  :root{
+    --cream:#FFF3E3;
+    --peach:#FDEEE0;
+    --orange:#EB9F62;
+    --dark:#2A2A2A;
+    --gray:#666;
+    --lightgray:#F9F1E7;
+    --card-bg:#F4F5F7;
+    --red:#E97171;
+    --green:#2EC1AC;
+    --white:#fff;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  body{ font-family:'Segoe UI', Helvetica, Arial, sans-serif; color:var(--dark); background:#fff; }
+  a{text-decoration:none; color:inherit;}
+  ul{list-style:none;}
+  img{max-width:100%; display:block;}
+
+  /* HEADER */
+  header{ display:flex; align-items:center; justify-content:space-between; padding:28px 40px; background:#fff; }
+  .logo{font-size:28px; font-weight:700; letter-spacing:1px;}
+  nav ul{display:flex; gap:44px; font-weight:600; font-size:16px;}
+  .nav-icons{display:flex; align-items:center; gap:28px; font-size:20px;}
+  .search-box{ display:flex; align-items:center; gap:10px; background:var(--lightgray); border-radius:6px; padding:10px 18px; font-size:14px; color:var(--gray); min-width:260px; }
+  .avatar{width:36px; height:36px; border-radius:50%; overflow:hidden; background:#ccc;}
+  .avatar img{width:100%; height:100%; object-fit:cover;}
+
+  /* BREADCRUMB STRIP */
+  .breadcrumb-strip{
+    background:var(--lightgray);
+    padding:20px 40px;
+    display:flex; align-items:center; gap:12px;
+    font-size:14px; color:var(--gray);
+  }
+  .breadcrumb-strip .current{color:var(--dark); font-weight:700;}
+  .breadcrumb-strip .sep{width:1px; height:24px; background:#D9D9D9; margin:0 8px;}
+
+  /* PRODUCT MAIN */
+  .product-main{
+    max-width:1200px; margin:0 auto; padding:60px 40px;
+    display:grid; grid-template-columns: 90px 1fr 1fr; gap:30px;
+  }
+  .thumb-col{display:flex; flex-direction:column; gap:16px;}
+  .thumb-col img{border-radius:8px; background:var(--card-bg); height:100px; object-fit:cover; cursor:pointer; border:2px solid transparent;}
+  .thumb-col img.active{border-color:var(--orange);}
+  .main-image{border-radius:8px; overflow:hidden; background:var(--card-bg);}
+  .main-image img{width:100%; height:600px; object-fit:cover;}
+
+  .product-details h1{font-size:36px; font-weight:500; margin-bottom:10px;}
+  .product-details .sku{font-size:18px; color:var(--gray); margin-bottom:16px;}
+  .rating{display:flex; align-items:center; gap:10px; margin-bottom:16px;}
+  .rating .stars{color:var(--orange); letter-spacing:2px;}
+  .rating .count{color:var(--gray); font-size:13px; border-left:1px solid #D9D9D9; padding-left:12px;}
+  .desc{color:var(--gray); font-size:14px; line-height:1.7; margin-bottom:24px;}
+
+  .option-row{display:flex; align-items:center; gap:20px; margin-bottom:20px;}
+  .option-row .label{color:var(--gray); font-size:14px; width:70px;}
+  .size-options, .color-options{display:flex; gap:10px;}
+  .size-btn{
+    width:44px; height:44px; border-radius:6px; background:var(--card-bg);
+    display:flex; align-items:center; justify-content:center; font-weight:600; cursor:pointer;
+  }
+  .size-btn.active{background:var(--dark); color:#fff;}
+  .color-dot{width:34px; height:34px; border-radius:50%; cursor:pointer; border:2px solid transparent;}
+  .color-dot.active{border-color:var(--dark);}
+
+  hr.thin{border:none; border-top:1px solid #D9D9D9; margin:24px 0;}
+
+  .qty-row{display:flex; align-items:center; gap:20px;}
+  .qty-selector{ display:flex; align-items:center; border:1px solid #9F9F9F; border-radius:6px; overflow:hidden; }
+  .qty-selector button{ background:none; border:none; width:44px; height:52px; font-size:18px; cursor:pointer; }
+  .qty-selector .qty-num{width:40px; text-align:center; font-weight:600;}
+  .btn-primary{ background:var(--orange); color:#fff; font-weight:700; padding:16px 46px; border-radius:2px; border:2px solid var(--dark); cursor:pointer; font-size:14px; }
+  .btn-outline-dark{ background:transparent; color:var(--dark); font-weight:700; padding:16px 46px; border-radius:2px; border:2px solid var(--dark); cursor:pointer; font-size:14px; }
+
+  .meta-list{margin-top:30px; font-size:14px; color:var(--gray); line-height:2.2;}
+  .meta-list b{color:var(--dark); display:inline-block; width:70px;}
+
+  /* TABS */
+  .tabs-section{ max-width:1200px; margin:0 auto; padding:0 40px 80px; }
+  .tabs-nav{ display:flex; justify-content:center; gap:50px; font-weight:700; font-size:16px; margin-bottom:40px; }
+  .tabs-nav .tab.active{ color:var(--dark); border-bottom:2px solid var(--dark); padding-bottom:12px; }
+  .tabs-nav .tab{ color:var(--gray); }
+  .tab-content{max-width:750px; margin:0 auto;}
+  .tab-content h3{font-size:22px; font-weight:700; margin:24px 0 12px;}
+  .tab-content p{font-size:14px; color:var(--gray); line-height:1.8; margin-bottom:16px;}
+  .spec-table{width:100%; border-collapse:collapse; margin-top:16px;}
+  .spec-table td{padding:10px 0; font-size:14px; color:var(--gray); border-bottom:1px solid #eee;}
+  .spec-table td:first-child{width:200px; font-weight:600; color:var(--dark);}
+
+  /* RELATED */
+  .related-heading{text-align:center; font-size:28px; font-weight:700; padding:20px 0 40px;}
+  .related-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:30px; max-width:1200px; margin:0 auto 80px; padding:0 40px; }
+  .product-card{ background:var(--card-bg); border-radius:4px; overflow:hidden; position:relative; cursor:pointer; transition:transform .2s; }
+  .product-card:hover{transform:translateY(-4px);}
+  .product-card .img-wrap{height:220px; overflow:hidden;}
+  .product-card .img-wrap img{width:100%; height:100%; object-fit:cover;}
+  .product-info{padding:16px 20px 24px;}
+  .product-info h3{font-size:18px; font-weight:700; margin-bottom:6px;}
+  .product-info .cat{font-size:13px; color:var(--gray); margin-bottom:8px;}
+  .price-row .price{font-weight:700; font-size:16px;}
+
+  /* FOOTER */
+  footer{ background:#fff; border-top:1px solid #eee; padding:60px 40px 40px; }
+  .footer-grid{ max-width:1200px; margin:0 auto; display:grid; grid-template-columns:1.4fr 1fr 1fr 1fr 1.2fr; gap:30px; }
+  .footer-grid h4{font-size:15px; font-weight:700; margin-bottom:20px;}
+  .footer-grid p, .footer-grid li{font-size:13px; color:var(--gray); margin-bottom:12px; line-height:1.6;}
+  .footer-brand h3{font-size:24px; font-weight:700; margin-bottom:16px;}
+  .newsletter{ display:flex; border-bottom:1px solid var(--dark); padding-bottom:10px; }
+  .newsletter input{ border:none; outline:none; flex:1; font-size:13px; }
+  .newsletter button{ background:var(--orange); border:none; color:#fff; width:34px; height:34px; border-radius:2px; cursor:pointer; }
+
+  @media (max-width: 900px){
+    nav, .search-box{display:none;}
+    .product-main{grid-template-columns:1fr; }
+    .thumb-col{flex-direction:row; overflow-x:auto;}
+    .thumb-col img{width:80px; flex-shrink:0;}
+    .related-grid{grid-template-columns:repeat(2,1fr);}
+    .footer-grid{grid-template-columns:repeat(2,1fr);}
+    .tabs-nav{gap:20px; flex-wrap:wrap;}
+  }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <div class="logo">Funiro.</div>
+  <nav>
+     <ul>
+      <li><a href="funiro.html">Home</a></li>
+      <li><a href="./shop.html">Products</a></li>
+      <li><a href="#">Inspirations</a></li>
+    </ul>
+  </nav>
+  <div class="search-box">🔍 <span>Search for minimalist chair</span></div>
+  <div class="nav-icons">
+    <span>♡</span>
+    <span>🛒</span>
+    <div class="avatar"><img src="https://i.pravatar.cc/72" alt="user avatar"></div>
+  </div>
+</header>
+
+
+
+<!-- PRODUCT MAIN -->
+<div class="product-main">
+  <div class="thumb-col">
+    <img class="active" src="https://images.unsplash.com/photo-1567016432779-094069958ea5?w=200&q=70" alt="Sofa thumbnail 1">
+    <img src="https://images.unsplash.com/photo-1550254478-ead40cc54513?w=200&q=70" alt="Sofa thumbnail 2">
+    <img src="https://images.unsplash.com/photo-1493663284031-b7e3aefcae8e?w=200&q=70" alt="Sofa thumbnail 3">
+    <img src="https://images.unsplash.com/photo-1524758631624-e2822e304c36?w=200&q=70" alt="Sofa thumbnail 4">
+  </div>
+  <div class="main-image">
+    <img src="https://images.unsplash.com/photo-1567016432779-094069958ea5?w=900&q=80" alt="Asgaard sofa main view">
+  </div>
+  <div class="product-details">
+    <h1>Asgaard Sofa</h1>
+    <div class="sku">Rs 7,000,000</div>
+    <div class="rating">
+      <span class="stars">★★★★☆</span>
+      <span class="count">5 Customer Reviews</span>
+    </div>
+    <p class="desc">
+      Setting the bar as one of the loudest speakers in its class, the Asgaard sofa
+      is a blend of classic comfort and modern craftsmanship — built on a solid wood
+      frame with high-density foam cushions upholstered in soft woven fabric.
+    </p>
+
+    <div class="option-row">
+      <span class="label">Size</span>
+      <div class="size-options">
+        <div class="size-btn">L</div>
+        <div class="size-btn active">XL</div>
+        <div class="size-btn">XS</div>
+      </div>
+    </div>
+
+    <div class="option-row">
+      <span class="label">Color</span>
+      <div class="color-options">
+        <div class="color-dot active" style="background:#816DFA;"></div>
+        <div class="color-dot" style="background:#000;"></div>
+        <div class="color-dot" style="background:#B88E2F;"></div>
+      </div>
+    </div>
+
+    <hr class="thin">
+
+    <div class="qty-row">
+      <div class="qty-selector">
+        <button>−</button>
+        <span class="qty-num">1</span>
+        <button>+</button>
+      </div>
+      <button class="btn-outline-dark">Add To Cart</button>
+      <button class="btn-primary">+ Compare</button>
+    </div>
+
+    <hr class="thin">
+
+    <div class="meta-list">
+      <div><b>SKU</b> SS001</div>
+      <div><b>Category</b> Sofas</div>
+      <div><b>Tags</b> Sofa, Living Room, Furniture</div>
+      <div><b>Share</b> Facebook &nbsp;·&nbsp; Instagram &nbsp;·&nbsp; Twitter</div>
+    </div>
+  </div>
+</div>
+
+<!-- TABS -->
+<div class="tabs-section">
+  <div class="tabs-nav">
+    <div class="tab active">Description</div>
+    <div class="tab">Additional Information</div>
+    <div class="tab">Reviews [5]</div>
+  </div>
+  <div class="tab-content">
+    <h3>Comfort meets craftsmanship</h3>
+    <p>
+      Embodying the raw, wayward spirit of Scandinavian design, the Asgaard sofa was
+      created to invite quiet conversation. Every joint is hand-finished, every seam
+      is double-stitched, and every cushion is filled to hold its shape through years
+      of daily use.
+    </p>
+    <p>
+      Available in three sizes and a range of upholstery colors, this piece adapts to
+      apartments and larger living rooms alike, without losing its distinct silhouette.
+    </p>
+    <table class="spec-table">
+      <tr><td>Dimensions</td><td>250cm x 95cm x 75cm</td></tr>
+      <tr><td>Frame Material</td><td>Solid oak wood</td></tr>
+      <tr><td>Upholstery</td><td>Woven fabric, water-resistant</td></tr>
+      <tr><td>Weight Capacity</td><td>350kg</td></tr>
+      <tr><td>Assembly</td><td>Minor assembly required</td></tr>
+    </table>
+  </div>
+</div>
+
+<!-- RELATED PRODUCTS -->
+<h2 class="related-heading">Related Products</h2>
+<div class="related-grid">
+  <div class="product-card">
+    <div class="img-wrap"><img src="https://images.unsplash.com/photo-1519947486511-46149fa0a254?w=600&q=80" alt="Syltherine"></div>
+    <div class="product-info"><h3>Syltherine</h3><div class="cat">Stylish cafe chair</div><div class="price-row"><span class="price">Rs 2,500,000</span></div></div>
+  </div>
+  <div class="product-card">
+    <div class="img-wrap"><img src="fan.webp" alt="Respira fan"></div>
+    <div class="product-info"><h3>Respira</h3><div class="cat">Minimalist fan</div><div class="price-row"><span class="price">Rs 500,000</span></div></div>
+  </div>
+  <div class="product-card">
+    <div class="img-wrap"><img src="https://images.unsplash.com/photo-1522771930-78848d9293e8?w=600&q=80" alt="Pingky"></div>
+    <div class="product-info"><h3>Pingky</h3><div class="cat">Cute bed set</div><div class="price-row"><span class="price">Rs 7,000,000</span></div></div>
+  </div>
+  <div class="product-card">
+    <div class="img-wrap"><img src="https://images.unsplash.com/photo-1602928321679-560bb453f190?w=600&q=80" alt="Potty"></div>
+    <div class="product-info"><h3>Potty</h3><div class="cat">Minimalist flower pot</div><div class="price-row"><span class="price">Rs 500,000</span></div></div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <h3>Funiro.</h3>
+      <p>Worldwide furniture store since 2020. We sell over 1000+ branded products on our website.</p>
+      <p>📍 Srilanka</p>
+      <p>📞 0771234567</p>
+      <p>🌐 www.funiro.com</p>
+    </div>
+    <div>
+      <h4>Menu</h4>
+      <ul><li>Products</li><li>Rooms</li><li>Inspirations</li><li>About Us</li><li>Terms & Policy</li></ul>
+    </div>
+    <div>
+      <h4>Account</h4>
+      <ul><li>My Account</li><li>Checkout</li><li>My Cart</li><li>My Catalog</li></ul>
+    </div>
+    <div>
+      <h4>Stay Connected</h4>
+      <ul><li>Facebook</li><li>Instagram</li><li>Twitter</li></ul>
+    </div>
+    <div>
+      <h4>Stay Updated</h4>
+      <div class="newsletter">
+        <input type="email" placeholder="Enter your email">
+        <button>➤</button>
+      </div>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
