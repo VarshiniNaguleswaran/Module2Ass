@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>Shop — Funiro.</title>
+<style>
+  :root{
+    --cream:#FFF3E3;
+    --peach:#FDEEE0;
+    --orange:#EB9F62;
+    --dark:#2A2A2A;
+    --gray:#666;
+    --lightgray:#F9F1E7;
+    --card-bg:#F4F5F7;
+    --red:#E97171;
+    --green:#2EC1AC;
+    --white:#fff;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  body{ font-family:'Segoe UI', Helvetica, Arial, sans-serif; color:var(--dark); background:#fff; }
+  a{text-decoration:none; color:inherit;}
+  ul{list-style:none;}
+  img{max-width:100%; display:block;}
+
+  /* HEADER */
+  header{ display:flex; align-items:center; justify-content:space-between; padding:28px 40px; background:#fff; }
+  .logo{font-size:28px; font-weight:700; letter-spacing:1px;}
+  nav ul{display:flex; gap:44px; font-weight:600; font-size:16px;}
+  nav ul li.active{color:var(--dark); font-weight:700;}
+  .nav-icons{display:flex; align-items:center; gap:28px; font-size:20px;}
+  .search-box{ display:flex; align-items:center; gap:10px; background:var(--lightgray); border-radius:6px; padding:10px 18px; font-size:14px; color:var(--gray); min-width:260px; }
+  .avatar{width:36px; height:36px; border-radius:50%; overflow:hidden; background:#ccc;}
+  .avatar img{width:100%; height:100%; object-fit:cover;}
+
+  /* BREADCRUMB BANNER */
+  .banner{
+    position:relative;
+    background: var(--peach);
+    padding:70px 40px;
+    text-align:center;
+  }
+  .banner::before{
+    content:"";
+    position:absolute; inset:0;
+    background-image:url('https://images.unsplash.com/photo-1615529182904-14819c35db37?w=1400&q=60');
+    background-size:cover; background-position:center;
+    opacity:0.15;
+  }
+  .banner-content{position:relative; z-index:1;}
+  .banner-logo{font-size:32px; font-weight:700; margin-bottom:14px;}
+  .breadcrumb{font-size:14px; color:var(--gray); display:flex; align-items:center; justify-content:center; gap:8px;}
+  .breadcrumb .current{color:var(--dark); font-weight:700;}
+
+  /* TOOLBAR */
+  .toolbar{
+    display:flex; align-items:center; justify-content:space-between;
+    background:var(--lightgray);
+    padding:22px 40px;
+    max-width:1200px; margin:40px auto 0;
+    flex-wrap:wrap; gap:16px;
+  }
+  .toolbar-left{display:flex; align-items:center; gap:24px; font-size:14px;}
+  .toolbar-left .filter-btn{display:flex; align-items:center; gap:8px; font-weight:600; cursor:pointer;}
+  .toolbar-left .divider-v{width:1px; height:24px; background:#D9D9D9;}
+  .toolbar-right{display:flex; align-items:center; gap:20px; font-size:14px; color:var(--gray);}
+  select{border:none; background:transparent; font-weight:700; color:var(--dark); font-size:14px;}
+
+  /* PRODUCTS */
+  .products-grid{
+    display:grid; grid-template-columns:repeat(4, 1fr); gap:30px;
+    max-width:1200px; margin:0 auto; padding:40px 40px;
+  }
+  .product-card{ background:var(--card-bg); border-radius:4px; overflow:hidden; position:relative; cursor:pointer; transition:transform .2s; }
+  .product-card:hover{transform:translateY(-4px);}
+  .product-card .img-wrap{ position:relative; height:220px; overflow:hidden; }
+  .product-card .img-wrap img{width:100%; height:100%; object-fit:cover;}
+  .badge{ position:absolute; top:16px; right:16px; width:44px; height:44px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:700; color:#fff; }
+  .badge.sale{background:var(--red);}
+  .badge.new{background:var(--green);}
+  .product-info{padding:16px 20px 24px;}
+  .product-info h3{font-size:18px; font-weight:700; margin-bottom:6px;}
+  .product-info .cat{font-size:13px; color:var(--gray); margin-bottom:8px;}
+  .price-row{display:flex; align-items:baseline; gap:10px;}
+  .price-row .price{font-weight:700; font-size:16px;}
+  .price-row .old-price{ text-decoration:line-through; color:var(--gray); font-size:13px; }
+  .hover-overlay{ position:absolute; inset:0; background:rgba(59,59,59,0.9); color:#fff; display:flex; flex-direction:column; align-items:center; justify-content:center; opacity:0; transition:opacity .2s; }
+  .product-card:hover .hover-overlay{opacity:1;}
+  .hover-overlay .add-cart{ background:#fff; color:var(--dark); font-weight:700; padding:12px 30px; border-radius:2px; margin-bottom:16px; border:none; cursor:pointer; }
+  .hover-overlay .actions{display:flex; gap:20px; font-size:13px; font-weight:600;}
+
+  /* PAGINATION */
+  .pagination{ display:flex; justify-content:center; gap:16px; padding:20px 0 80px; }
+  .pagination a{ width:44px; height:44px; border-radius:4px; background:var(--lightgray); display:flex; align-items:center; justify-content:center; font-weight:700; }
+  .pagination a.active{background:var(--orange); color:#fff;}
+
+  /* FEATURES (reuse) */
+  .features{ display:flex; justify-content:space-between; padding:60px 40px; max-width:1200px; margin:0 auto; flex-wrap:wrap; gap:24px; border-top:1px solid #eee; }
+  .feature{ display:flex; align-items:center; gap:16px; flex:1; min-width:220px; }
+  .feature .icon{font-size:32px;}
+  .feature h4{font-size:16px; font-weight:700;}
+  .feature p{font-size:13px; color:var(--gray);}
+
+  /* FOOTER */
+  footer{ background:#fff; border-top:1px solid #eee; padding:60px 40px 40px; }
+  .footer-grid{ max-width:1200px; margin:0 auto; display:grid; grid-template-columns:1.4fr 1fr 1fr 1fr 1.2fr; gap:30px; }
+  .footer-grid h4{font-size:15px; font-weight:700; margin-bottom:20px;}
+  .footer-grid p, .footer-grid li{font-size:13px; color:var(--gray); margin-bottom:12px; line-height:1.6;}
+  .footer-brand h3{font-size:24px; font-weight:700; margin-bottom:16px;}
+  .newsletter{ display:flex; border-bottom:1px solid var(--dark); padding-bottom:10px; }
+  .newsletter input{ border:none; outline:none; flex:1; font-size:13px; }
+  .newsletter button{ background:var(--orange); border:none; color:#fff; width:34px; height:34px; border-radius:2px; cursor:pointer; }
+
+  @media (max-width: 900px){
+    nav, .search-box{display:none;}
+    .products-grid{grid-template-columns:repeat(2,1fr);}
+    .toolbar{flex-direction:column; align-items:flex-start;}
+    .footer-grid{grid-template-columns:repeat(2,1fr);}
+  }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <div class="logo">Funiro.</div>
+  <nav>
+     <ul>
+      <li><a href="funiro.html">Home</a></li>
+      <li><a href="./shop.html">Products</a></li>
+      <li><a href="#">Inspirations</a></li>
+    </ul>
+  </nav>
+  <div class="search-box">🔍 <span>Search for minimalist chair</span></div>
+  <div class="nav-icons">
+    <span>♡</span>
+    <span>🛒</span>
+    <div class="avatar"><img src="https://i.pravatar.cc/72" alt="user avatar"></div>
+  </div>
+</header>
+
+<!-- BREADCRUMB BANNER -->
+<section class="banner">
+  <div class="banner-content">
+    <div class="banner-logo">Products</div>
+    <div class="breadcrumb">Explore Products</div>
+  </div>
+</section>
+
+<!-- PRODUCTS -->
+<div class="products-grid">
+
+  <div class="product-card">
+    <div class="img-wrap">
+      <img src="https://images.unsplash.com/photo-1618220179428-22790b461013?w=600&q=80" alt="Syltherine desk">
+      <div class="badge sale">-30%</div>
+    </div>
+    <div class="product-info">
+      <h3>Syltherine</h3>
+      <div class="cat">Stylish cafe chair</div>
+      <div class="price-row"><span class="price">Rs 2,500,000</span><span class="old-price">Rp 3.500.000</span></div>
+    </div>
+  </div>
+
+  <div class="product-card">
+    <div class="img-wrap"><img src="https://images.unsplash.com/photo-1519947486511-46149fa0a254?w=600&q=80" alt="Leviosa chair"></div>
+    <div class="product-info">
+      <h3>Leviosa</h3>
+      <div class="cat">Stylish cafe chair</div>
+      <div class="price-row"><span class="price">Rs 2,500,000</span></div>
+    </div>
+    <div class="hover-overlay">
+      <button class="add-cart">Add to cart</button>
+      <div class="actions"><span>⇄ Share</span><span>♡ Like</span></div>
+    </div>
+  </div>
+
+  <div class="product-card">
+    <div class="img-wrap">
+      <img src="https://images.unsplash.com/photo-1550254478-ead40cc54513?w=600&q=80" alt="Lolito sofa">
+      <div class="badge sale">-50%</div>
+    </div>
+    <div class="product-info">
+      <h3>Lolito</h3>
+      <div class="cat">Luxury big sofa</div>
+      <div class="price-row"><span class="price">Rs 7,000,000</span><span class="old-price">Rs 14,000,000</span></div>
+    </div>
+  </div>
+
+  <div class="product-card">
+    <div class="img-wrap">
+      <img src="fan.webp" alt="Respira fan">
+      <div class="badge new">New</div>
+    </div>
+    <div class="product-info">
+      <h3>Respira</h3>
+      <div class="cat">Minimalist fan</div>
+      <div class="price-row"><span class="price">Rs 500,000</span></div>
+    </div>
+  </div>
+
+  <div class="product-card">
+    <div class="img-wrap"><img src="https://images.unsplash.com/photo-1513506003901-1e6a229e2d15?w=600&q=80" alt="Grifo lamp"></div>
+    <div class="product-info">
+      <h3>Grifo</h3>
+      <div class="cat">Night lamp</div>
+      <div class="price-row"><span class="price">Rs 1,500,000</span></div>
+    </div>
+  </div>
+
+  <div class="product-card">
+    <div class="img-wrap">
+      <img src="https://images.unsplash.com/photo-1514228742587-6b1558fcca3d?w=600&q=80" alt="Muggo mug">
+      <div class="badge new">New</div>
+    </div>
+    <div class="product-info">
+      <h3>Muggo</h3>
+      <div class="cat">Small mug</div>
+      <div class="price-row"><span class="price">Rs 150,000</span></div>
+    </div>
+  </div>
+
+  <div class="product-card">
+    <div class="img-wrap">
+      <img src="https://images.unsplash.com/photo-1522771930-78848d9293e8?w=600&q=80" alt="Pingky bed set">
+      <div class="badge sale">-50%</div>
+    </div>
+    <div class="product-info">
+      <h3>Pingky</h3>
+      <div class="cat">Cute bed set</div>
+      <div class="price-row"><span class="price">Rs 7,000,000</span><span class="old-price">Rs 14,000,000</span></div>
+    </div>
+  </div>
+
+  <div class="product-card">
+    <div class="img-wrap">
+      <img src="https://images.unsplash.com/photo-1602928321679-560bb453f190?w=600&q=80" alt="Potty flower pot">
+      <div class="badge new">New</div>
+    </div>
+    <div class="product-info">
+      <h3>Potty</h3>
+      <div class="cat">Minimalist flower pot</div>
+      <div class="price-row"><span class="price">Rs 500,000</span></div>
+    </div>
+  </div>
+
+  <div class="product-card">
+    <div class="img-wrap"><img src="https://images.unsplash.com/photo-1493663284031-b7e3aefcae8e?w=600&q=80" alt="Marco chair"></div>
+    <div class="product-info">
+      <h3>Marco</h3>
+      <div class="cat">Simple sofa chair</div>
+      <div class="price-row"><span class="price">Rs 2,500,000</span></div>
+    </div>
+  </div>
+
+  <div class="product-card">
+    <div class="img-wrap">
+      <img src="https://images.unsplash.com/photo-1524758631624-e2822e304c36?w=600&q=80" alt="Kruzo bookshelf">
+      <div class="badge sale">-25%</div>
+    </div>
+    <div class="product-info">
+      <h3>Kruzo Aero</h3>
+      <div class="cat">Bookshelf with drawer</div>
+      <div class="price-row"><span class="price">Rs 1,500,000</span><span class="old-price">Rs 2,000,000</span></div>
+    </div>
+  </div>
+
+  <div class="product-card">
+    <div class="img-wrap"><img src="https://images.unsplash.com/photo-1503602642458-232111445657?w=600&q=80" alt="Blossom lamp"></div>
+    <div class="product-info">
+      <h3>Blossom</h3>
+      <div class="cat">Table lamp</div>
+      <div class="price-row"><span class="price">Rs 900,000</span></div>
+    </div>
+  </div>
+
+  <div class="product-card">
+    <div class="img-wrap">
+      <img src="https://images.unsplash.com/photo-1631679706909-1844bbd07221?w=600&q=80" alt="Anika sofa">
+      <div class="badge new">New</div>
+    </div>
+    <div class="product-info">
+      <h3>Anika</h3>
+      <div class="cat">Simple sofa</div>
+      <div class="price-row"><span class="price">Rs 5,000,000</span></div>
+    </div>
+  </div>
+
+</div>
+
+<!-- PAGINATION -->
+<div class="pagination">
+  <a href="#" class="active">1</a>
+  <a href="#">2</a>
+  <a href="#">3</a>
+</div>
+
+<!-- FEATURES -->
+<div class="features">
+  <div class="feature"><div class="icon">🏆</div><div><h4>High Quality</h4><p>crafted from top materials</p></div></div>
+  <div class="feature"><div class="icon">✅</div><div><h4>Warranty Protection</h4><p>Over 2 years</p></div></div>
+  <div class="feature"><div class="icon">🚚</div><div><h4>Free Shipping</h4><p>Order over $150</p></div></div>
+  <div class="feature"><div class="icon">🎧</div><div><h4>24 / 7 Support</h4><p>Dedicated support</p></div></div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <h3>Funiro.</h3>
+      <p>Worldwide furniture store since 2020. We sell over 1000+ branded products on our website.</p>
+      <p>📍 Srilanka</p>
+      <p>📞 0771234567</p>
+      <p>🌐 www.funiro.com</p>
+    </div>
+    <div>
+      <h4>Menu</h4>
+      <ul><li>Products</li><li>Rooms</li><li>Inspirations</li><li>About Us</li><li>Terms & Policy</li></ul>
+    </div>
+    <div>
+      <h4>Account</h4>
+      <ul><li>My Account</li><li>Checkout</li><li>My Cart</li><li>My Catalog</li></ul>
+    </div>
+    <div>
+      <h4>Stay Connected</h4>
+      <ul><li>Facebook</li><li>Instagram</li><li>Twitter</li></ul>
+    </div>
+    <div>
+      <h4>Stay Updated</h4>
+      <div class="newsletter">
+        <input type="email" placeholder="Enter your email">
+        <button>➤</button>
+      </div>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
